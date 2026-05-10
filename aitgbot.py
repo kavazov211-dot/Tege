@@ -37,25 +37,47 @@ def start(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
 
+    chat_id = call.message.chat.id
+
     if call.data == "uz":
 
-        user_lang[call.message.chat.id] = "uz"
+        user_lang[chat_id] = "uz"
+
+        markup = types.InlineKeyboardMarkup()
+        back_btn = types.InlineKeyboardButton("🔙 Orqaga", callback_data="back")
+        markup.add(back_btn)
 
         bot.edit_message_text(
             "✅ O'zbekcha tanlandi\n\nMatn yuboring 🎤",
-            call.message.chat.id,
-            call.message.message_id
+            chat_id,
+            call.message.message_id,
+            reply_markup=markup
         )
 
     elif call.data == "ru":
 
-        user_lang[call.message.chat.id] = "ru"
+        user_lang[chat_id] = "ru"
+
+        markup = types.InlineKeyboardMarkup()
+        back_btn = types.InlineKeyboardButton("🔙 Назад", callback_data="back")
+        markup.add(back_btn)
 
         bot.edit_message_text(
             "✅ Русский выбран\n\nОтправьте текст 🎤",
-            call.message.chat.id,
-            call.message.message_id
+            chat_id,
+            call.message.message_id,
+            reply_markup=markup
         )
+
+    elif call.data == "back":
+
+        chat_id = call.message.chat.id
+
+        # 🔥 OLD XABARNI O‘CHIRISH
+        bot.delete_message(chat_id, call.message.message_id)
+
+        # 🔁 START MENYU
+        start(call.message)
 
 
 @bot.message_handler(func=lambda m: True)
@@ -75,7 +97,7 @@ def voice(message):
         communicate = edge_tts.Communicate(
             text,
             voice_name,
-            rate="-20%"   # 👈 SEKIN GAPIRISH
+            rate="-20%"   # sekin gapirish
         )
         await communicate.save(filename)
 
