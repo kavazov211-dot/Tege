@@ -13,7 +13,6 @@ user_lang = {}
 @bot.message_handler(commands=['start'])
 def start(message):
 
-    # inline knopkalar
     markup = types.InlineKeyboardMarkup()
 
     uz_btn = types.InlineKeyboardButton(
@@ -34,7 +33,7 @@ def start(message):
         reply_markup=markup
     )
 
-# knopka bosilganda
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
 
@@ -43,7 +42,7 @@ def callback(call):
         user_lang[call.message.chat.id] = "uz"
 
         bot.edit_message_text(
-            "✅ O'zbekcha tanlandi\n\nMatn txt yuboring 🎤",
+            "✅ O'zbekcha tanlandi\n\nMatn yuboring 🎤",
             call.message.chat.id,
             call.message.message_id
         )
@@ -58,7 +57,7 @@ def callback(call):
             call.message.message_id
         )
 
-# Text -> Voice
+
 @bot.message_handler(func=lambda m: True)
 def voice(message):
 
@@ -75,7 +74,8 @@ def voice(message):
     async def generate():
         communicate = edge_tts.Communicate(
             text,
-            voice_name
+            voice_name,
+            rate="-30%"   # 👈 SEKIN GAPIRISH
         )
         await communicate.save(filename)
 
@@ -85,6 +85,7 @@ def voice(message):
         bot.send_voice(message.chat.id, audio)
 
     os.remove(filename)
+
 
 print("Bot ishladi...")
 bot.infinity_polling()
