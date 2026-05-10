@@ -4,7 +4,7 @@ import edge_tts
 import asyncio
 import os
 
-TOKEN = "8435803353:AAEp9z8amY-M69uOk76DKS0ztd1Y-YozFN0"
+TOKEN = "7585451169:AAF5kBJjD2HjMzcEXTztr5UmCxRtvxqaT2Y"
 
 bot = telebot.TeleBot(TOKEN)
 
