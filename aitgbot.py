@@ -75,7 +75,7 @@ def voice(message):
         communicate = edge_tts.Communicate(
             text,
             voice_name,
-            rate="-30%"   # 👈 SEKIN GAPIRISH
+            rate="-25%"   # 👈 SEKIN GAPIRISH
         )
         await communicate.save(filename)
 
