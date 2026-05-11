@@ -83,25 +83,37 @@ def callback(call):
 @bot.message_handler(func=lambda m: True)
 def voice(message):
 
-    text = message.text
+    import re
 
-    # taqiqlangan so'zlar
-    blocked_words = [
-        "kamron",
-        "kamroon",
-        "avazov",
-        "avazoov"
+    text = message.text.lower()
+
+    # faqat harf va raqamlarni qoldirish
+    clean_text = "".join(
+        c for c in text if c.isalnum()
+    )
+
+    # KAMRON va AVAZOV uchun aqlli pattern
+    blocked_patterns = [
+
+        # kamron / kmrn
+        r"k.*m.*r.*n",
+
+        # avazov / avzv
+        r"a.*v.*z.*v"
+
     ]
 
     # tekshirish
-    if any(word in text.lower() for word in blocked_words):
+    for pattern in blocked_patterns:
 
-        bot.send_message(
-            message.chat.id,
-            "❌ Bu so'zni aytish taqiqlangan."
-        )
+        if re.search(pattern, clean_text):
 
-        return
+            bot.send_message(
+                message.chat.id,
+                "❌ Bu so'zni aytish taqiqlangan."
+            )
+
+            return
 
     filename = "voice.mp3"
 
@@ -114,7 +126,7 @@ def voice(message):
 
     async def generate():
         communicate = edge_tts.Communicate(
-            text,
+            message.text,
             voice_name,
             rate="-20%"
         )
