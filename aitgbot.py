@@ -84,6 +84,20 @@ def callback(call):
 def voice(message):
 
     text = message.text
+
+    # taqiqlangan so'zlar
+    blocked_words = ["kamron"]
+
+    # tekshirish
+    if any(word in text.lower() for word in blocked_words):
+
+        bot.send_message(
+            message.chat.id,
+            "❌ Bu ismni aytish taqiqlangan."
+        )
+
+        return
+
     filename = "voice.mp3"
 
     lang = user_lang.get(message.chat.id, "uz")
@@ -97,7 +111,7 @@ def voice(message):
         communicate = edge_tts.Communicate(
             text,
             voice_name,
-            rate="-20%"   # sekin gapirish
+            rate="-20%"
         )
         await communicate.save(filename)
 
