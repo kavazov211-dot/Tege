@@ -86,14 +86,19 @@ def voice(message):
     text = message.text
 
     # taqiqlangan so'zlar
-    blocked_words = ["kamron"]
+    blocked_words = [
+        "kamron",
+        "kamroon",
+        "avazov",
+        "avazoov"
+    ]
 
     # tekshirish
     if any(word in text.lower() for word in blocked_words):
 
         bot.send_message(
             message.chat.id,
-            "❌ Bu ismni aytish taqiqlangan."
+            "❌ Bu so'zni aytish taqiqlangan."
         )
 
         return
