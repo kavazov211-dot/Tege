@@ -115,7 +115,7 @@ def callback(call):
     try:
         if call.data.startswith("lang_"):
             data["lang"] = call.data.split("_")[1]
-            msg_text = "✅ Matn yuboring 🎤" if data["lang"] == "uz" else "✅ Отправьте текст 🎤"
+            msg_text = "Menu🎤:" if data["lang"] == "uz" else "Меню🎤:"
             bot.edit_message_text(msg_text, chat_id, call.message.message_id, reply_markup=main_menu_keyboard(chat_id))
         elif call.data == "main_menu":
             bot.edit_message_text("Asosiy menyu:", chat_id, call.message.message_id, reply_markup=main_menu_keyboard(chat_id))
